@@ -19,6 +19,7 @@ public class Program {
         List<Athlete> athleteList = new ArrayList<>();
 
         for (int i = 0; i < qnt; i++) {
+            sc.nextLine();
             System.out.println("Digite os dados do atleta numero " + (i + 1) + ":");
 
             System.out.print("Nome: ");
@@ -27,16 +28,26 @@ public class Program {
             System.out.print("Sexo: ");
             char gender = sc.next().charAt(0);
 
-            if (gender != 'M' && gender != 'F') {
-                System.out.print("Digite um gênero válido: ");
+            while((gender != 'M') && (gender != 'F')) {
+                System.out.print("Gênero invalido, por favor digite novamente: ");
                 gender = sc.next().charAt(0);
             }
 
             System.out.print("Altura (digite no formato m.cm): ");
             double height = sc.nextDouble();
 
+            while((height < 0.0)) {
+                System.out.print("Altura invalida: ");
+                height = sc.nextDouble();
+            }
+
             System.out.print("Peso: ");
             double weight = sc.nextDouble();
+
+            while((weight < 0)) {
+                System.out.print("Peso invalido: ");
+                weight = sc.nextDouble();
+            }
 
             Athlete athlete = new Athlete(name, gender, height, weight);
 
@@ -44,19 +55,22 @@ public class Program {
 
             System.out.println();
         }
+
+        System.out.println("RELATÓRIO:");
         System.out.print("Peso medio dos atletas: ");
         System.out.println(String.format("%.2f", middleWeight(athleteList)));
         System.out.print("Atleta mais alto: ");
         System.out.println(higher(athleteList));
         System.out.print("Porcentagem de homens: ");
         System.out.println(String.format("%.1f %%", menPercentage(athleteList)));
+
         if (womenCalc(athleteList) == null) {
             System.out.println("Não há mulheres cadastradas");
         } else {
             System.out.print("Altura média das mulheres: ");
             System.out.printf("%.1f %n", womenCalc(athleteList));
         }
-        
+
         sc.close();
     }
 
