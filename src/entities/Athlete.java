@@ -1,5 +1,7 @@
 package entities;
 
+import java.util.List;
+
 public class Athlete {
     private String name;
     private char gender;
@@ -47,4 +49,5 @@ public class Athlete {
     public void setWeight(Double weight) {
         this.weight = weight;
     }
+
 }
