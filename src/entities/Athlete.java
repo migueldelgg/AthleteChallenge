@@ -1,15 +1,15 @@
 package entities;
 
-public class athlete {
+public class Athlete {
     private String name;
     private char gender;
     private Double height;
     private Double weight;
 
-    public athlete(){
+    public Athlete(){
     }
 
-    public athlete(String name, char gender, Double height, Double weight) {
+    public Athlete(String name, char gender, Double height, Double weight) {
         this.name = name;
         this.gender = gender;
         this.height = height;
