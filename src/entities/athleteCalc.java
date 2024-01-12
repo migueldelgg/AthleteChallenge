@@ -20,5 +20,17 @@ public class athleteCalc extends athlete{
         return (double) allWeight / qnt;
     }
 
-    
+    public double higher(){
+        double higher = 0;
+
+        for(athlete c : athleteList) {
+            if (c.getHeight() > higher) {
+                higher = c.getHeight();
+            }
+        }
+        return higher;
+    }
+
+
+
 }
