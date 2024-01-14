@@ -1,11 +1,9 @@
 package application;
 
-import entities.Athlete;
+import model.entities.Athlete;
+import model.exceptions.AthleteException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
 
 public class Program {
     public static void main(String[] args) {
@@ -13,65 +11,61 @@ public class Program {
         Locale.setDefault(Locale.US);
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Qual a quantidade de atletas? ");
-        int qnt = sc.nextInt();
+        try {
+            System.out.print("Qual a quantidade de atletas? ");
+            int qnt = sc.nextInt();
 
-        List<Athlete> athleteList = new ArrayList<>();
+            List<Athlete> athleteList = new ArrayList<>();
 
-        for (int i = 0; i < qnt; i++) {
-            sc.nextLine();
-            System.out.println("Digite os dados do atleta numero " + (i + 1) + ":");
+            for (int i = 0; i < qnt; i++) {
+                sc.nextLine();
+                System.out.println("Digite os dados do atleta numero " + (i + 1) + ":");
 
-            System.out.print("Nome: ");
-            String name = sc.nextLine();
+                System.out.print("Nome: ");
+                String name = sc.nextLine();
 
-            System.out.print("Sexo: ");
-            char gender = sc.next().charAt(0);
+                System.out.print("Sexo: ");
+                char gender = sc.next().charAt(0);
 
-            while((gender != 'M') && (gender != 'F')) {
-                System.out.print("Gênero invalido, por favor digite novamente: ");
-                gender = sc.next().charAt(0);
+                System.out.print("Altura (digite no formato m.cm): ");
+                double height = sc.nextDouble();
+
+                System.out.print("Peso: ");
+                double weight = sc.nextDouble();
+
+                Athlete athlete = new Athlete(name, gender, height, weight);
+
+                athlete.validate(name,gender,height,weight);
+
+                athleteList.add(athlete);
+
+                System.out.println();
+
+                System.out.println("RELATÓRIO:");
+                System.out.print("Peso medio dos atletas: ");
+                System.out.println(String.format("%.2f", middleWeight(athleteList)));
+                System.out.print("Atleta mais alto: ");
+                System.out.println(higher(athleteList));
+                System.out.print("Porcentagem de homens: ");
+                System.out.println(String.format("%.1f %%", menPercentage(athleteList)));
+
+                if (womenCalc(athleteList) == null) {
+                    System.out.println("Não há mulheres cadastradas");
+                } else {
+                    System.out.print("Altura média das mulheres: ");
+                    System.out.printf("%.2f %n", womenCalc(athleteList));
+                }
             }
-
-            System.out.print("Altura (digite no formato m.cm): ");
-            double height = sc.nextDouble();
-
-            while((height < 0.0)) {
-                System.out.print("Altura invalida: ");
-                height = sc.nextDouble();
-            }
-
-            System.out.print("Peso: ");
-            double weight = sc.nextDouble();
-
-            while((weight < 0)) {
-                System.out.print("Peso invalido: ");
-                weight = sc.nextDouble();
-            }
-
-            Athlete athlete = new Athlete(name, gender, height, weight);
-
-            athleteList.add(athlete);
-
-            System.out.println();
+        } catch (IllegalArgumentException e) {
+            System.out.print("O dado informado está errado. "+ e.getMessage());
+        } catch (InputMismatchException e) {
+            System.out.println("Digite um dado valido.");
+        } catch (AthleteException e) {
+            System.out.println(e.getMessage());
         }
-
-        System.out.println("RELATÓRIO:");
-        System.out.print("Peso medio dos atletas: ");
-        System.out.println(String.format("%.2f", middleWeight(athleteList)));
-        System.out.print("Atleta mais alto: ");
-        System.out.println(higher(athleteList));
-        System.out.print("Porcentagem de homens: ");
-        System.out.println(String.format("%.1f %%", menPercentage(athleteList)));
-
-        if (womenCalc(athleteList) == null) {
-            System.out.println("Não há mulheres cadastradas");
-        } else {
-            System.out.print("Altura média das mulheres: ");
-            System.out.printf("%.1f %n", womenCalc(athleteList));
+        finally {
+            sc.close();
         }
-
-        sc.close();
     }
 
     public static Double middleWeight(List<Athlete> list) {

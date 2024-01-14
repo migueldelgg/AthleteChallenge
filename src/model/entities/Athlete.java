@@ -1,6 +1,6 @@
-package entities;
+package model.entities;
 
-import java.util.List;
+import model.exceptions.AthleteException;
 
 public class Athlete {
     private String name;
@@ -49,5 +49,21 @@ public class Athlete {
     public void setWeight(Double weight) {
         this.weight = weight;
     }
+
+    public void validate(String name, char gender, Double height, Double weight){
+        if((gender != 'M') && (gender != 'F')) {
+            throw new IllegalArgumentException ("Gênero invalido, por favor digite novamente: ");
+        }
+
+        if (height <= 0.0) {
+            throw new AthleteException("Altura invalida. ");
+        }
+
+        if (weight <= 0.0) {
+            throw new AthleteException("Peso invalido.");
+        }
+
+    }
+
 
 }
